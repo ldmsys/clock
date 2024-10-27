@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live DateTime</title>
+    <style>
+        body {
+            background-color: #010101;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .container {
+            text-align: center;
+            margin-left: 15%;
+            margin-right: 15%;
+            margin-bottom: 20px;
+        }
+        .time {
+            font-size: 96px;
+            font-weight: bold;
+        }
+        .date {
+            font-size: 48px;
+            margin-top: 10px;
+        }
+        .footer {
+            font-size: 14px;
+            text-align: center;
+            position: fixed;
+            bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="time" id="time">00:00:00</div>
+        <div class="date" id="date">Nov 21 1972 - Wed - Week 00</div>
+    </div>
+    <div class="footer">
+          Computer Architecture and System Laboratory<br>Korea Advanced Institute of Science and Technology
+<!--        291 Daehak-ro, Yuseong-gu, Daejeon 34141, Republic of Korea-->
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const timeElement = document.getElementById('time');
+            const dateElement = document.getElementById('date');
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+
+            const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const day = now.getDate();
+            const month = months[now.getMonth()];
+            const year = now.getFullYear();
+            const dayOfWeek = daysOfWeek[now.getDay()];
+
+            const oneJan = new Date(now.getFullYear(), 0, 1);
+            const numberOfDays = Math.floor((now - oneJan) / (24 * 60 * 60 * 1000));
+            const weekNumber = Math.ceil((now.getDay() + 1 + numberOfDays) / 7);
+
+            dateElement.textContent = `${month} ${day} ${year} - ${dayOfWeek} - Week ${weekNumber}`;
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>
